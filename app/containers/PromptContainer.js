@@ -9,8 +9,8 @@ var PromptContainer = React.createClass({
       password: '',
       repeatPassword: '',
       myState: false,
-      errorMsg1: '',
-      errorMsg2: ''
+      errorMsg1: [],
+      errorMsg2: []
     }
   },
   handleSubmitForm: function (e) {
@@ -38,21 +38,15 @@ var PromptContainer = React.createClass({
             // do nothing because message is already ""
             break;
           case 1:
-            message = "Please correct the following issue:\n" + this.issues[0];
+            message = "Please correct the following issue" + this.issues[0];
             break;
           default:
-            message = "Please correct the following issues:\n" + this.issues.join("\n");
+            message = "Please correct the following issues" + this.issues.join("\n");
             break;
         }
         return message;
       }
     };
-
-      /*
-    Don't forget to grab the input's .value!
-     */
-    var firstPassword = password
-    var secondPassword = repeatPassword;
 
     /*
     Make an issue tracker for each input because some validation messages should
@@ -66,29 +60,29 @@ var PromptContainer = React.createClass({
     Just checks the first password because the second should be the same when it runs.
      */
     function checkRequirements() {
-      if (firstPassword.length < 16) {
+      if (password.length < 16) {
         firstInputIssuesTracker.add("fewer than 16 characters");
-      } else if (firstPassword.length > 100) {
+      } else if (password.length > 100) {
         firstInputIssuesTracker.add("greater than 100 characters");
       }
 
-      if (!firstPassword.match(/[\!\@\#\$\%\^\&\*]/g)) {
+      if (!password.match(/[\!\@\#\$\%\^\&\*]/g)) {
         firstInputIssuesTracker.add("missing a symbol (!, @, #, $, %, ^, &, *)");
       }
 
-      if (!firstPassword.match(/\d/g)) {
+      if (!password.match(/\d/g)) {
         firstInputIssuesTracker.add("missing a number");
       }
 
-      if (!firstPassword.match(/[a-z]/g)) {
+      if (!password.match(/[a-z]/g)) {
         firstInputIssuesTracker.add("missing a lowercase letter");
       }
 
-      if (!firstPassword.match(/[A-Z]/g)) {
+      if (!password.match(/[A-Z]/g)) {
         firstInputIssuesTracker.add("missing an uppercase letter");
       }
 
-      var illegalCharacterGroup = firstPassword.match(/[^A-z0-9\!\@\#\$\%\^\&\*]/g)
+      var illegalCharacterGroup = password.match(/[^A-z0-9\!\@\#\$\%\^\&\*]/g)
       if (illegalCharacterGroup) {
         illegalCharacterGroup.forEach(function (illegalChar) {
           firstInputIssuesTracker.add("includes illegal character: " + illegalChar);
@@ -99,7 +93,7 @@ var PromptContainer = React.createClass({
     /*
     Here's the first validation check. Gotta make sure they match.
      */
-    if (firstPassword === secondPassword && firstPassword.length > 0) {
+    if (password === repeatPassword && password.length > 0) {
       /*
       They match, so make sure the rest of the requirements have been met.
        */
@@ -114,15 +108,11 @@ var PromptContainer = React.createClass({
     var firstInputIssues = firstInputIssuesTracker.retrieve()
     var secondInputIssues = secondInputIssuesTracker.retrieve()
 
-    /*
-    console.log issues
-     */
-    console.log(firstInputIssues);
-    console.log(secondInputIssues);
+
 
     this.setState({
-      errorMsg1: firstInputIssues,
-      errorMsg2: secondInputIssues
+      errorMsg1: firstInputIssuesTracker.issues,
+      errorMsg2: secondInputIssuesTracker.issues
     });
 
     /*
@@ -148,7 +138,7 @@ var PromptContainer = React.createClass({
       password: event.target.value
     });
   },
-  handleUpdateRepeatPassword: function (event) {
+  handleUpdaterepeatPassword: function (event) {
     this.setState({
       repeatPassword: event.target.value
     });
@@ -161,7 +151,7 @@ var PromptContainer = React.createClass({
         onUpdateUser={this.handleUpdateUser}
         onUpdateEmail={this.handleUpdateEmail}
         onUpdatePassword={this.handleUpdatePassword}
-        onUpdateRepeatPassword={this.handleUpdateRepeatPassword}
+        onUpdaterepeatPassword={this.handleUpdaterepeatPassword}
         myState={this.state.myState}
         errorMsg1={this.state.errorMsg1}
         errorMsg2={this.state.errorMsg2}
