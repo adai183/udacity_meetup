@@ -4,7 +4,7 @@ var transparentBg = require('../styles').transparentBg;
 var errorMsg = require('../styles').errorMsg;
 
 
-function Prompt (props) {
+function CreateMeetUp (props) {
   return (
     <div className="jumbotron col-sm-6 col-sm-offset-3 text-center" style={transparentBg}>
       <h1>Sign up</h1>
@@ -100,7 +100,7 @@ function Prompt (props) {
   )
 }
 
-Prompt.propTypes = {
+CreateMeetUp.propTypes = {
   onSubmitForm: PropTypes.func.isRequired,
   onUpdateUser: PropTypes.func.isRequired,
   onUpdateEmail: PropTypes.func.isRequired,
@@ -117,4 +117,4 @@ Prompt.propTypes = {
   errorMsg2: PropTypes.array.isRequired,
 }
 
-module.exports = Prompt
+module.exports = CreateMeetUp;

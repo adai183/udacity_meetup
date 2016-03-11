@@ -5,9 +5,9 @@ var rooturl = 'https://udacity-meet-up.firebaseio.com/';
 var ref = new Firebase(rooturl);
 window.authData = ref.getAuth();
 
-var Prompt = require('../components/Prompt');
+var CreateMeetUp = require('../components/CreateMeetUp');
 
-var PromptContainer = React.createClass({
+var CreateMeetUpContainer = React.createClass({
   mixins: [Reactfire],
   getInitialState: function () {
     return {
@@ -69,7 +69,7 @@ var PromptContainer = React.createClass({
         }
       });
       // redirect user when input is valid
-      window.location= "/#/battle";
+      window.location= "/#/createMp";
     }
   },
   validateInput:function () {
@@ -226,7 +226,7 @@ var PromptContainer = React.createClass({
 
   render: function () {
     return (
-      <Prompt
+      <CreateMeetUp
         onSubmitForm={this.handleSubmitForm}
         onUpdateUser={this.handleUpdateUser}
         onUpdateEmail={this.handleUpdateEmail}
@@ -245,4 +245,4 @@ var PromptContainer = React.createClass({
   }
 });
 
-module.exports = PromptContainer;
+module.exports = CreateMeetUpContainer;
