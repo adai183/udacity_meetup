@@ -1,11 +1,12 @@
 var React = require('react');
 var Reactfire = require('reactfire');
 var Firebase = require('firebase');
-var rooturl = '',
+var rooturl = 'https://udacity-meet-up.firebaseio.com/';
 
 var Prompt = require('../components/Prompt');
 
 var PromptContainer = React.createClass({
+  mixins: [Reactfire],
   getInitialState: function () {
     return {
       username: '',
@@ -15,6 +16,18 @@ var PromptContainer = React.createClass({
       myState: false,
       errorMsg1: [],
       errorMsg2: []
+    }
+  },
+  componentWillMount: function(){
+    // Register the callback to be fired every time auth state changes
+    var ref = new Firebase(rooturl);
+    ref.onAuth(this.authDataCallback);
+  },
+  authDataCallback: function () {
+    if (this.authData) {
+    console.log("User " + this.authData.uid + " is logged in with " + this.authData.provider);
+    } else {
+    console.log("User is logged out");
     }
   },
   handleSubmitForm: function (e) {
