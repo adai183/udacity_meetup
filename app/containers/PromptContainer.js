@@ -2,6 +2,8 @@ var React = require('react');
 var Reactfire = require('reactfire');
 var Firebase = require('firebase');
 var rooturl = 'https://udacity-meet-up.firebaseio.com/';
+var ref = new Firebase(rooturl);
+window.authData = ref.getAuth();
 
 var Prompt = require('../components/Prompt');
 
@@ -19,19 +21,56 @@ var PromptContainer = React.createClass({
     }
   },
   componentWillMount: function(){
-    // Register the callback to be fired every time auth state changes
-    var ref = new Firebase(rooturl);
-    ref.onAuth(this.authDataCallback);
-  },
-  authDataCallback: function () {
-    if (this.authData) {
-    console.log("User " + this.authData.uid + " is logged in with " + this.authData.provider);
-    } else {
-    console.log("User is logged out");
-    }
+    console.log(ref.getAuth());
   },
   handleSubmitForm: function (e) {
     e.preventDefault();
+    var self = this;
+
+    // check wether input is valid on the client side
+    if(self.state.errorMsg1+self.state.errorMsg2 ==="" && self.state.repeatPassword !=""){
+
+      // Create new user on firebase database
+      ref.createUser({
+        email: self.state.email,
+        password: self.state.password
+      },
+      function(error, userData) {
+        if (error) {
+          console.log("Error creating user:", error);
+        } else {
+          console.log("Successfully created user account with uid:", userData.uid);
+
+          // Save user profile
+          // we would probably save a profile when we register new users on our site
+          // we could also read the profile to see if it's null
+          // here we will just simulate this with an isNewUser boolean
+          var isNewUser = true;
+          if(isNewUser){
+            ref.child("users").child(userData.uid).set({
+              username: self.state.username,
+              email: self.state.email,
+              password: self.state.password
+            });
+          };
+
+          // authenticate this new user
+          ref.authWithPassword({
+            email    : self.state.email,
+            password : self.state.password
+            },
+            function(error, authData) {
+            if (error) {
+              console.log("Login Failed!", error);
+            } else {
+              console.log("Authenticated successfully with payload:", authData);
+            }
+          });
+        }
+      });
+      // redirect user when input is valid
+      window.location= "/#/battle";
+    }
   },
   validateInput:function () {
     var username = this.state.username;
