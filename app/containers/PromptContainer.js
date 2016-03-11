@@ -1,4 +1,8 @@
 var React = require('react');
+var Reactfire = require('reactfire');
+var Firebase = require('firebase');
+var rooturl = '',
+
 var Prompt = require('../components/Prompt');
 
 var PromptContainer = React.createClass({
@@ -15,12 +19,12 @@ var PromptContainer = React.createClass({
   },
   handleSubmitForm: function (e) {
     e.preventDefault();
-
+  },
+  validateInput:function () {
     var username = this.state.username;
     var email = this.state.email;
     var password = this.state.password;
     var repeatPassword = this.state.repeatPassword;
-
     /*
     I'm using this IssueTracker to help me format my validation messages.
     */
@@ -60,8 +64,12 @@ var PromptContainer = React.createClass({
     Just checks the first password because the second should be the same when it runs.
      */
     function checkRequirements() {
-      if (password.length < 16) {
-        firstInputIssuesTracker.add("fewer than 16 characters");
+      if (password!==repeatPassword && repeatPassword.length > 0) {
+        firstInputIssuesTracker.add("passwords must match");
+      }
+
+      if (password.length < 8) {
+        firstInputIssuesTracker.add("fewer than 8 characters");
       } else if (password.length > 100) {
         firstInputIssuesTracker.add("greater than 100 characters");
       }
@@ -84,6 +92,7 @@ var PromptContainer = React.createClass({
 
       var illegalCharacterGroup = password.match(/[^A-z0-9\!\@\#\$\%\^\&\*]/g)
       if (illegalCharacterGroup) {
+
         illegalCharacterGroup.forEach(function (illegalChar) {
           firstInputIssuesTracker.add("includes illegal character: " + illegalChar);
         });
@@ -93,35 +102,42 @@ var PromptContainer = React.createClass({
     /*
     Here's the first validation check. Gotta make sure they match.
      */
-    if (password === repeatPassword && password.length > 0) {
-      /*
-      They match, so make sure the rest of the requirements have been met.
-       */
+    if (password.length > 0 || repeatPassword.length > 0) {
       checkRequirements();
-    } else {
-      secondInputIssuesTracker.add("Passwords must match!");
     }
-
     /*
     Get the validation message strings after all the requirements have been checked.
      */
     var firstInputIssues = firstInputIssuesTracker.retrieve()
     var secondInputIssues = secondInputIssuesTracker.retrieve()
 
-
-
     this.setState({
-      errorMsg1: firstInputIssuesTracker.issues,
-      errorMsg2: secondInputIssuesTracker.issues
+      errorMsg1: firstInputIssuesTracker.issues
     });
-
-    /*
-    You would probably replace this with a POST message in a real app.
-     */
-    if (firstInputIssues.length + secondInputIssues.length === 0) {
-      alert("Password change successful!");
+  },
+  renderError1: function () {
+    var errorArr1 = this.state.errorMsg1;
+    if(errorArr1.length>0){
+      return errorArr1.map(function (er) {
+        return <li>
+          {er}
+        </li>
+      })
+    }else {
+      return null
     }
-
+  },
+  renderError2: function () {
+    var errorArr2 = this.state.errorMsg2;
+    if(errorArr2.length>0){
+      return errorArr2.map(function (er) {
+        return <li>
+          {er}
+        </li>
+      })
+    }else {
+      return null
+    }
   },
   handleUpdateUser: function (event) {
     this.setState({
@@ -137,11 +153,23 @@ var PromptContainer = React.createClass({
     this.setState({
       password: event.target.value
     });
+
+    ///// Validation ///////
+    setTimeout(
+      this.validateInput, 500
+    );
+
   },
   handleUpdaterepeatPassword: function (event) {
-    this.setState({
+    var self = this;
+    self.setState({
       repeatPassword: event.target.value
     });
+
+    ///// Validation ///////
+    setTimeout(
+      this.validateInput, 500
+    );
   },
 
   render: function () {
@@ -152,6 +180,8 @@ var PromptContainer = React.createClass({
         onUpdateEmail={this.handleUpdateEmail}
         onUpdatePassword={this.handleUpdatePassword}
         onUpdaterepeatPassword={this.handleUpdaterepeatPassword}
+        renderError1={this.renderError1}
+        renderError2={this.renderError2}
         myState={this.state.myState}
         errorMsg1={this.state.errorMsg1}
         errorMsg2={this.state.errorMsg2}

@@ -11,8 +11,10 @@ function Prompt (props) {
         <div className="row">
           <div className="col-sm-12">
             <div className="error-msg" style={errorMsg}>
-              {props.errorMsg1}
-              {props.errorMsg2}
+              <ul className="error-list">
+                {props.renderError2()}
+                {props.renderError1()}
+              </ul>
             </div>
           </div>
         </div>
@@ -104,7 +106,8 @@ Prompt.propTypes = {
   onUpdateEmail: PropTypes.func.isRequired,
   onUpdatePassword: PropTypes.func.isRequired,
   onUpdaterepeatPassword: PropTypes.func.isRequired,
-
+  renderError1: PropTypes.func.isRequired,
+  renderError2: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
