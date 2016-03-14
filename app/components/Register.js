@@ -18,7 +18,7 @@ function Register (props) {
             </div>
           </div>
         </div>
-      <form onSubmit={props.onSubmitForm}>
+      <form onSubmit={props.onSubmitForm} autoComplete="on">
         <div className="row">
           <div className="col-sm-12">
             <div className="form-group">

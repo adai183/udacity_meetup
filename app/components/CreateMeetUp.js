@@ -2,9 +2,10 @@ var React = require('react');
 var PropTypes = React.PropTypes;
 var transparentBg = require('../styles').transparentBg;
 var errorMsg = require('../styles').errorMsg;
-
+var DateTimeField = require('react-bootstrap-datetimepicker');
 
 function CreateMeetUp (props) {
+
   return (
     <div className="jumbotron col-sm-6 col-sm-offset-3 text-center" style={transparentBg}>
       <h1>Welcome, {props.username} !</h1>
@@ -13,13 +14,12 @@ function CreateMeetUp (props) {
           <div className="col-sm-12">
             <div className="error-msg" style={errorMsg}>
               <ul className="error-list">
-                {props.renderError2()}
-                {props.renderError1()}
+                // errors
               </ul>
             </div>
           </div>
         </div>
-      <form onSubmit={props.onSubmitForm}>
+      <form onSubmit={props.onSubmitForm} autoComplete="on">
         <div className="row">
           <div className="col-sm-12">
             <div className="form-group">
@@ -32,7 +32,7 @@ function CreateMeetUp (props) {
                   autofocus
                   required
                   type='text'
-                  value={props.username} />
+                  value={props.eventname} />
               </label>
             </div>
           </div>
@@ -40,15 +40,24 @@ function CreateMeetUp (props) {
         <div className="row">
           <div className="col-sm-12">
             <div className="form-group">
-              <label> email
+              <label> event type
                 <input
                   className='form-control'
-                  onChange={props.onUpdateEmail}
-                  placeholder='john.doe@gmail.com'
+                  list='eventType'
+                  onChange={props.onUpdateEventType}
+                  placeholder='meet&greet'
                   maxLength="100"
+                  autofocus
                   required
-                  type='email'
-                  value={props.email} />
+                  type='text'
+                  value={props.eventtype} />
+                <datalist id="eventType">
+                  <option value="meet&greet" />
+                  <option value="conference talk" />
+                  <option value="workshop" />
+                  <option value="hiring event"/>
+                  <option value="intersect" />
+                </datalist>
               </label>
             </div>
           </div>
@@ -56,15 +65,10 @@ function CreateMeetUp (props) {
         <div className="row">
           <div className="col-sm-12">
             <div className="form-group">
-              <label> password
-                <input
-                  className='form-control'
-                  id='first'
-                  onChange={props.onUpdatePassword}
-                  maxLength="100"
-                  required
-                  type='password'
-                  value={props.password} />
+              <label> event start
+                <DateTimeField
+                  onChange={props.onUpdateStartDate}
+                   />
               </label>
             </div>
           </div>
@@ -72,15 +76,8 @@ function CreateMeetUp (props) {
         <div className="row">
           <div className="col-sm-12">
             <div className="form-group">
-              <label> repeat password
-                <input
-                  className='form-control'
-                  id='second'
-                  onChange={props.onUpdaterepeatPassword}
-                  maxLength="100"
-                  required
-                  type='password'
-                  value={props.repeatPassword} />
+              <label> event end
+                <DateTimeField />
               </label>
             </div>
           </div>
@@ -104,15 +101,10 @@ function CreateMeetUp (props) {
 CreateMeetUp.propTypes = {
   onSubmitForm: PropTypes.func.isRequired,
   onUpdateEventName: PropTypes.func.isRequired,
-  onUpdateEmail: PropTypes.func.isRequired,
-  onUpdatePassword: PropTypes.func.isRequired,
-  onUpdaterepeatPassword: PropTypes.func.isRequired,
-  renderError1: PropTypes.func.isRequired,
-  renderError2: PropTypes.func.isRequired,
+  onUpdateEventType: PropTypes.func.isRequired,
+  onUpdateStartDate: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
-  repeatPassword: PropTypes.string.isRequired,
+  eventname: PropTypes.string.isRequired,
   errorMsg1: PropTypes.array.isRequired,
   errorMsg2: PropTypes.array.isRequired,
 }

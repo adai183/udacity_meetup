@@ -36,7 +36,8 @@ var RegisterContainer = React.createClass({
       },
       function(error, userData) {
         if (error) {
-          console.log("Error creating user:", error);
+          console.log(error);
+          window.alert("Error creating user: " + error);
         } else {
           console.log("Successfully created user account with uid:", userData.uid);
 
@@ -63,12 +64,12 @@ var RegisterContainer = React.createClass({
               console.log("Login Failed!", error);
             } else {
               console.log("Authenticated successfully with payload:", authData);
+              // redirect user when input is valid
+              window.location= "/#/createmeetup";
             }
           });
         }
       });
-      // redirect user when input is valid
-      window.location= "/#/createmeetup";
     }
   },
   validateInput:function () {
