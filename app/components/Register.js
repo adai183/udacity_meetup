@@ -112,7 +112,6 @@ Register.propTypes = {
   email: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   repeatPassword: PropTypes.string.isRequired,
-  myState: PropTypes.bool.isRequired,
   errorMsg1: PropTypes.array.isRequired,
   errorMsg2: PropTypes.array.isRequired,
 }

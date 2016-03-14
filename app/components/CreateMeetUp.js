@@ -7,7 +7,8 @@ var errorMsg = require('../styles').errorMsg;
 function CreateMeetUp (props) {
   return (
     <div className="jumbotron col-sm-6 col-sm-offset-3 text-center" style={transparentBg}>
-      <h1>Sign up</h1>
+      <h1>Welcome, {props.username} !</h1>
+      <p> Create your first meetup</p>
         <div className="row">
           <div className="col-sm-12">
             <div className="error-msg" style={errorMsg}>
@@ -22,11 +23,11 @@ function CreateMeetUp (props) {
         <div className="row">
           <div className="col-sm-12">
             <div className="form-group">
-              <label> username
+              <label> name of the event
                 <input
                   className='form-control'
-                  onChange={props.onUpdateUser}
-                  placeholder='JohnDoe'
+                  onChange={props.onUpdateEventName}
+                  placeholder='udacious meet&greet'
                   maxLength="100"
                   autofocus
                   required
@@ -102,7 +103,7 @@ function CreateMeetUp (props) {
 
 CreateMeetUp.propTypes = {
   onSubmitForm: PropTypes.func.isRequired,
-  onUpdateUser: PropTypes.func.isRequired,
+  onUpdateEventName: PropTypes.func.isRequired,
   onUpdateEmail: PropTypes.func.isRequired,
   onUpdatePassword: PropTypes.func.isRequired,
   onUpdaterepeatPassword: PropTypes.func.isRequired,
@@ -112,7 +113,6 @@ CreateMeetUp.propTypes = {
   email: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   repeatPassword: PropTypes.string.isRequired,
-  myState: PropTypes.bool.isRequired,
   errorMsg1: PropTypes.array.isRequired,
   errorMsg2: PropTypes.array.isRequired,
 }

@@ -15,13 +15,30 @@ var CreateMeetUpContainer = React.createClass({
       email: '',
       password: '',
       repeatPassword: '',
-      myState: false,
       errorMsg1: [],
       errorMsg2: []
     }
   },
   componentWillMount: function(){
-    console.log(ref.getAuth());
+
+    var userIn = ref.getAuth()
+    console.log(userIn);
+    var userRef = new Firebase(rooturl + 'users/' + userIn.uid);
+
+    // Attach an asynchronous callback to read the data at our posts reference
+    userRef.once("value", function(snapshot) {
+      console.log(snapshot.val().username);
+      var username = snapshot.val().username;
+      this.setState({
+        username: username
+      });
+    }.bind(this),
+    function (errorObject) {
+      console.log("The read failed: " + errorObject.code);
+    });
+
+
+
   },
   handleSubmitForm: function (e) {
     e.preventDefault();
@@ -191,7 +208,7 @@ var CreateMeetUpContainer = React.createClass({
       return null
     }
   },
-  handleUpdateUser: function (event) {
+  handleUpdateEventName: function (event) {
     this.setState({
       username: event.target.value
     });
@@ -228,13 +245,12 @@ var CreateMeetUpContainer = React.createClass({
     return (
       <CreateMeetUp
         onSubmitForm={this.handleSubmitForm}
-        onUpdateUser={this.handleUpdateUser}
+        onUpdateEventName={this.handleUpdateEventName}
         onUpdateEmail={this.handleUpdateEmail}
         onUpdatePassword={this.handleUpdatePassword}
         onUpdaterepeatPassword={this.handleUpdaterepeatPassword}
         renderError1={this.renderError1}
         renderError2={this.renderError2}
-        myState={this.state.myState}
         errorMsg1={this.state.errorMsg1}
         errorMsg2={this.state.errorMsg2}
         username={this.state.username}

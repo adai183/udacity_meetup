@@ -15,7 +15,6 @@ var RegisterContainer = React.createClass({
       email: '',
       password: '',
       repeatPassword: '',
-      myState: false,
       errorMsg1: [],
       errorMsg2: []
     }
@@ -234,7 +233,6 @@ var RegisterContainer = React.createClass({
         onUpdaterepeatPassword={this.handleUpdaterepeatPassword}
         renderError1={this.renderError1}
         renderError2={this.renderError2}
-        myState={this.state.myState}
         errorMsg1={this.state.errorMsg1}
         errorMsg2={this.state.errorMsg2}
         username={this.state.username}
