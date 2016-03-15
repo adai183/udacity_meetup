@@ -3,6 +3,7 @@ var PropTypes = React.PropTypes;
 var transparentBg = require('../styles').transparentBg;
 var errorMsg = require('../styles').errorMsg;
 var DateTimeField = require('react-bootstrap-datetimepicker');
+var Geosuggest = require('react-geosuggest');
 
 function CreateMeetUp (props) {
 
@@ -65,7 +66,7 @@ function CreateMeetUp (props) {
         <div className="row">
           <div className="col-sm-12">
             <div className="form-group">
-              <label> event start
+              <label>  start
                 <DateTimeField
                   onChange={props.onUpdateStartDate}
                    />
@@ -76,10 +77,19 @@ function CreateMeetUp (props) {
         <div className="row">
           <div className="col-sm-12">
             <div className="form-group">
-              <label> event end
+              <label>  end
                 <DateTimeField
                   onChange={props.onUpdateEndDate}
                   />
+              </label>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-sm-12">
+            <div className="form-group">
+              <label> location
+                <Geosuggest />
               </label>
             </div>
           </div>
