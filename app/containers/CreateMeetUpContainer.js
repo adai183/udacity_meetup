@@ -19,6 +19,7 @@ var CreateMeetUpContainer = React.createClass({
       eventname: '',
       eventtype: '',
       startdate: '',
+      enddate: '',
       errorMsg1: [],
       errorMsg2: []
     }
@@ -63,6 +64,14 @@ var CreateMeetUpContainer = React.createClass({
       startdate: newDate
     });
   },
+  handleUpdateEndDate: function (newDate) {
+    newDate = parseInt(newDate)
+    newDate = moment(newDate).format();
+    console.log("newDate", newDate);
+    this.setState({
+      enddate: newDate
+    });
+  },
   render: function () {
     return (
       <CreateMeetUp
@@ -70,6 +79,7 @@ var CreateMeetUpContainer = React.createClass({
         onUpdateEventName={this.handleUpdateEventName}
         onUpdateEventType={this.handleUpdateEventType}
         onUpdateStartDate={this.handleUpdateStartDate}
+        onUpdateEndDate={this.handleUpdateEndDate}
         renderError1={this.renderError1}
         renderError2={this.renderError2}
         errorMsg1={this.state.errorMsg1}

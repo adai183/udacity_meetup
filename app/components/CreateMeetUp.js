@@ -27,7 +27,7 @@ function CreateMeetUp (props) {
                 <input
                   className='form-control'
                   onChange={props.onUpdateEventName}
-                  placeholder='udacious meet&greet'
+                  placeholder='udacious meetup'
                   maxLength="100"
                   autofocus
                   required
@@ -77,7 +77,9 @@ function CreateMeetUp (props) {
           <div className="col-sm-12">
             <div className="form-group">
               <label> event end
-                <DateTimeField />
+                <DateTimeField
+                  onChange={props.onUpdateEndDate}
+                  />
               </label>
             </div>
           </div>
@@ -88,7 +90,7 @@ function CreateMeetUp (props) {
               <button
                 className="btn btn-block btn-success"
                 type="submit">
-                  Join
+                  Create Meetup
               </button>
             </div>
           </div>
@@ -103,6 +105,7 @@ CreateMeetUp.propTypes = {
   onUpdateEventName: PropTypes.func.isRequired,
   onUpdateEventType: PropTypes.func.isRequired,
   onUpdateStartDate: PropTypes.func.isRequired,
+  onUpdateEndDate: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
   eventname: PropTypes.string.isRequired,
   errorMsg1: PropTypes.array.isRequired,
