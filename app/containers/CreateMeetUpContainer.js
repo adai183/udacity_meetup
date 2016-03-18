@@ -6,9 +6,6 @@ var ref = new Firebase(rooturl);
 window.authData = ref.getAuth();
 var moment = require('moment');
 var now = moment().format('x');
-
-
-
 var CreateMeetUp = require('../components/CreateMeetUp');
 
 var CreateMeetUpContainer = React.createClass({
@@ -51,10 +48,12 @@ var CreateMeetUpContainer = React.createClass({
     var self = this;
 
     if(this.state.errorMsg1.length===0){
-      console.log('check');
-      var formattedStartDate = moment(this.state.startdate).format();
-      var formattedEndDate = moment(this.state.enddate).format();
-      ref.child("meetups").set({
+      console.log(this.state.startdate);
+      var formattedStartDate= parseInt(this.state.startdate);
+      var formattedEndDate=parseInt(this.state.enddate);
+      formattedStartDate = moment(this.state.startdate).format();
+      formattedEndDate = moment(this.state.enddate).format();
+      ref.child("meetups").push({
         creator: self.state.username,
         eventname: self.state.eventname,
         eventtype: self.state.eventtype,
@@ -139,6 +138,7 @@ var CreateMeetUpContainer = React.createClass({
         username={this.state.username}
         eventname={this.state.eventname}
         eventtype={this.state.eventtype}
+        guestlist={this.state.guestlist}
          />
     )
   }
