@@ -5,7 +5,7 @@ var rooturl = 'https://udacity-meet-up.firebaseio.com/';
 var ref = new Firebase(rooturl);
 window.authData = ref.getAuth();
 var moment = require('moment');
-var now = moment().format();
+var now = moment().format('x');
 
 
 
@@ -18,10 +18,13 @@ var CreateMeetUpContainer = React.createClass({
       username: '',
       eventname: '',
       eventtype: '',
-      startdate: '',
-      enddate: '',
+      startdate: now,
+      enddate: now,
+      guestlist: '',
       errorMsg1: [],
-      errorMsg2: []
+      errorMsg2: [],
+      lat: '',
+      lng: ''
     }
   },
   componentWillMount: function(){
@@ -44,7 +47,40 @@ var CreateMeetUpContainer = React.createClass({
   },
   handleSubmitForm: function (e) {
     e.preventDefault();
+    console.log(this.state.errorMsg1);
+    var self = this;
 
+    if(this.state.errorMsg1.length===0){
+      console.log('check');
+      var formattedStartDate = moment(this.state.startdate).format();
+      var formattedEndDate = moment(this.state.enddate).format();
+      ref.child("meetups").set({
+        creator: self.state.username,
+        eventname: self.state.eventname,
+        eventtype: self.state.eventtype,
+        startdate: formattedStartDate,
+        enddate: formattedEndDate,
+        lat: this.state.lat,
+        lng: this.state.lng
+      });
+      window.location= "/dist/map.html";
+    }
+  },
+  validateDates: function () {
+    if(this.state.startdate > this.state.enddate){
+      this.setState({
+        errorMsg1:'Sorry... check your date/time input. Your meetup ends before it starts.'
+      })
+    }else if (this.state.startdate < now) {
+      this.setState({
+        errorMsg1:'Please check your date/time input. Your meetup is happening in the past'
+      })
+    }else
+    {
+      this.setState({
+        errorMsg1: []
+      })
+    }
   },
   handleUpdateEventName: function (event) {
     this.setState({
@@ -57,19 +93,33 @@ var CreateMeetUpContainer = React.createClass({
     });
   },
   handleUpdateStartDate: function (newDate) {
-    newDate = parseInt(newDate)
-    newDate = moment(newDate).format();
-    console.log("newDate", newDate);
     this.setState({
       startdate: newDate
     });
+    setTimeout(
+      this.validateDates, 500
+    );
   },
   handleUpdateEndDate: function (newDate) {
     newDate = parseInt(newDate)
-    newDate = moment(newDate).format();
-    console.log("newDate", newDate);
+    console.log(newDate);
     this.setState({
       enddate: newDate
+    });
+    setTimeout(
+      this.validateDates, 500
+    );
+  },
+  getCoords: function (suggest) {
+    console.log(suggest.location);
+    this.setState({
+      lat: suggest.location.lat,
+      lng: suggest.location.lng
+    });
+  },
+  handleUpdateGuestlist: function (event) {
+    this.setState({
+      guestlist: event.target.value
     });
   },
   render: function () {
@@ -80,6 +130,8 @@ var CreateMeetUpContainer = React.createClass({
         onUpdateEventType={this.handleUpdateEventType}
         onUpdateStartDate={this.handleUpdateStartDate}
         onUpdateEndDate={this.handleUpdateEndDate}
+        onUpdateGuestlist={this.handleUpdateGuestlist}
+        getCoords={this.getCoords}
         renderError1={this.renderError1}
         renderError2={this.renderError2}
         errorMsg1={this.state.errorMsg1}

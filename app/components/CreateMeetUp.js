@@ -15,7 +15,7 @@ function CreateMeetUp (props) {
           <div className="col-sm-12">
             <div className="error-msg" style={errorMsg}>
               <ul className="error-list">
-                // errors
+                {props.errorMsg1}
               </ul>
             </div>
           </div>
@@ -89,7 +89,25 @@ function CreateMeetUp (props) {
           <div className="col-sm-12">
             <div className="form-group">
               <label> location
-                <Geosuggest />
+                <Geosuggest
+                  onSuggestSelect={props.getCoords} />
+              </label>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-sm-12">
+            <div className="form-group">
+              <label> Guestlist
+                <input
+                  className='form-control'
+                  onChange={props.onUpdateGuestlist}
+                  placeholder='john, adele, lucy'
+                  maxLength="100"
+                  autofocus
+                  required
+                  type='text'
+                  value={props.guestlist} />
               </label>
             </div>
           </div>
@@ -116,8 +134,11 @@ CreateMeetUp.propTypes = {
   onUpdateEventType: PropTypes.func.isRequired,
   onUpdateStartDate: PropTypes.func.isRequired,
   onUpdateEndDate: PropTypes.func.isRequired,
+  onUpdateGuestlist: PropTypes.func.isRequired,
+  getCoords: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
   eventname: PropTypes.string.isRequired,
+  guestlist: PropTypes.string.isRequired,
   errorMsg1: PropTypes.array.isRequired,
   errorMsg2: PropTypes.array.isRequired,
 }
