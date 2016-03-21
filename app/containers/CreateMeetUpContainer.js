@@ -63,7 +63,7 @@ var CreateMeetUpContainer = React.createClass({
         lat: this.state.lat,
         lng: this.state.lng
       });
-      window.location= "/dist/map.html";
+      window.location= 'http://adai183.github.io/udacity_meetup/map.html';
     }
   },
   validateDates: function () {
