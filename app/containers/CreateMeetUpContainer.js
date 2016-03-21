@@ -63,7 +63,7 @@ var CreateMeetUpContainer = React.createClass({
         lat: this.state.lat,
         lng: this.state.lng
       });
-      window.location= "/app/map.html";
+      window.location= "/dist/map.html";
     }
   },
   validateDates: function () {
