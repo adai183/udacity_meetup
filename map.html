@@ -1,0 +1,40 @@
+<head>
+    <link
+        rel="stylesheet"
+        href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css"
+    />
+    <style>
+      #map{
+        margin: 2% 2% 2% 2%;
+      }
+    </style>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+</head>
+
+<body>
+    <div id="map" style="width: 94%; height: 94vh"></div>
+    <script type="text/javascript">
+
+        var map = L.map('map', {minZoom:2}).setView([30,0], 2);
+
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var myFirebase = new Firebase('https://udacity-meet-up.firebaseio.com/meetups');
+        myFirebase.on("child_added", function(snapshot) {
+            var meetup = snapshot.val();
+            console.log(meetup);
+            var marker = L.marker([meetup.lat,meetup.lng]).addTo(map);
+
+            marker.bindPopup('<p> ' + meetup.eventname + '<br/>' + meetup.startdate + '<br/>' + 'created by ' + meetup.creator + '</p>');
+
+        });
+
+
+
+    </script>
+</body>
