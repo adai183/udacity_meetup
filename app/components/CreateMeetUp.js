@@ -30,7 +30,7 @@ function CreateMeetUp (props) {
                   onChange={props.onUpdateEventName}
                   placeholder='udacious meetup'
                   maxLength="100"
-                  autofocus
+                  autoFocus
                   required
                   type='text'
                   value={props.eventname} />
@@ -48,7 +48,6 @@ function CreateMeetUp (props) {
                   onChange={props.onUpdateEventType}
                   placeholder='meet&greet'
                   maxLength="100"
-                  autofocus
                   required
                   type='text'
                   value={props.eventtype} />
@@ -90,7 +89,8 @@ function CreateMeetUp (props) {
             <div className="form-group">
               <label> location
                 <Geosuggest
-                  onSuggestSelect={props.getCoords} />
+                  onSuggestSelect={props.getCoords}
+                  required />
               </label>
             </div>
           </div>
@@ -98,16 +98,30 @@ function CreateMeetUp (props) {
         <div className="row">
           <div className="col-sm-12">
             <div className="form-group">
-              <label> Guestlist
+              <label> guestlist
                 <input
                   className='form-control'
                   onChange={props.onUpdateGuestlist}
                   placeholder='john, adele, lucy'
                   maxLength="100"
-                  autofocus
                   required
                   type='text'
                   value={props.guestlist} />
+              </label>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-sm-12">
+            <div className="form-group">
+              <label> message for guests
+                <input
+                  className='form-control'
+                  onChange={props.onUpdateMessage}
+                  placeholder='Hi, fellow geeks!'
+                  maxLength="100"
+                  type='text'
+                  value={props.message} />
               </label>
             </div>
           </div>
@@ -135,10 +149,12 @@ CreateMeetUp.propTypes = {
   onUpdateStartDate: PropTypes.func.isRequired,
   onUpdateEndDate: PropTypes.func.isRequired,
   onUpdateGuestlist: PropTypes.func.isRequired,
+  onUpdateMessage: PropTypes.func.isRequired,
   getCoords: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
   eventname: PropTypes.string.isRequired,
   guestlist: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
   errorMsg1: PropTypes.array.isRequired,
   errorMsg2: PropTypes.array.isRequired,
 }

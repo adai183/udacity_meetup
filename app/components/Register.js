@@ -28,7 +28,7 @@ function Register (props) {
                   onChange={props.onUpdateUser}
                   placeholder='JohnDoe'
                   maxLength="100"
-                  autofocus
+                  autoFocus
                   required
                   type='text'
                   value={props.username} />

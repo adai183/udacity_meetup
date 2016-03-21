@@ -18,6 +18,7 @@ var CreateMeetUpContainer = React.createClass({
       startdate: now,
       enddate: now,
       guestlist: '',
+      message: '',
       errorMsg1: [],
       errorMsg2: [],
       lat: '',
@@ -92,16 +93,17 @@ var CreateMeetUpContainer = React.createClass({
     });
   },
   handleUpdateStartDate: function (newDate) {
+    newDate = parseInt(newDate);
     this.setState({
       startdate: newDate
     });
     setTimeout(
       this.validateDates, 500
     );
+    console.log(newDate);
   },
   handleUpdateEndDate: function (newDate) {
     newDate = parseInt(newDate)
-    console.log(newDate);
     this.setState({
       enddate: newDate
     });
@@ -121,6 +123,11 @@ var CreateMeetUpContainer = React.createClass({
       guestlist: event.target.value
     });
   },
+  handleUpdateMessage: function (event) {
+    this.setState({
+      message: event.target.value
+    });
+  },
   render: function () {
     return (
       <CreateMeetUp
@@ -130,6 +137,7 @@ var CreateMeetUpContainer = React.createClass({
         onUpdateStartDate={this.handleUpdateStartDate}
         onUpdateEndDate={this.handleUpdateEndDate}
         onUpdateGuestlist={this.handleUpdateGuestlist}
+        onUpdateMessage={this.handleUpdateMessage}
         getCoords={this.getCoords}
         renderError1={this.renderError1}
         renderError2={this.renderError2}
@@ -139,6 +147,7 @@ var CreateMeetUpContainer = React.createClass({
         eventname={this.state.eventname}
         eventtype={this.state.eventtype}
         guestlist={this.state.guestlist}
+        message={this.state.message}
          />
     )
   }
