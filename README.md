@@ -22,4 +22,4 @@ Build production code inside the dist folder with webpack:
 ```
 
 ###Demo Version###
-Checkout [live version](http://adai183.github.io/udacity_meetup).
+Check out the [live link](http://adai183.github.io/udacity_meetup).
