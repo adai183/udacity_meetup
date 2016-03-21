@@ -20,3 +20,6 @@ Build production code inside the dist folder with webpack:
 ```
 	> npm webpack -p
 ```
+
+###Demo Version###
+Checkout [live version](http://adai183.github.io/udacity_meetup).
