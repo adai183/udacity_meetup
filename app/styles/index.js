@@ -4,7 +4,7 @@ var styles = {
   },
   errorMsg: {
     color: 'red',
-    height: '15vh'
+    height: '23vh'
   }
 };
 
