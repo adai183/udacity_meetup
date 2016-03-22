@@ -68,6 +68,7 @@ function CreateMeetUp (props) {
               <label>  start
                 <DateTimeField
                   onChange={props.onUpdateStartDate}
+                  type="datetime-local"
                    />
               </label>
             </div>

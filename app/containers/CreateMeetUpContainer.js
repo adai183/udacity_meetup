@@ -6,6 +6,7 @@ var ref = new Firebase(rooturl);
 window.authData = ref.getAuth();
 var moment = require('moment');
 var now = moment().format('x');
+var formattedNow = moment().format();
 var CreateMeetUp = require('../components/CreateMeetUp');
 
 var CreateMeetUpContainer = React.createClass({
@@ -15,8 +16,8 @@ var CreateMeetUpContainer = React.createClass({
       username: '',
       eventname: '',
       eventtype: '',
-      startdate: now,
-      enddate: now,
+      startdate: formattedNow,
+      enddate: formattedNow,
       guestlist: '',
       message: '',
       errorMsg1: [],
@@ -67,7 +68,21 @@ var CreateMeetUpContainer = React.createClass({
     }
   },
   validateDates: function () {
-    if(this.state.startdate > this.state.enddate){
+    var startdateInt =  moment(this.state.startdate).format('x');
+    startdateInt = parseInt(startdateInt);
+
+    var enddateInt =  moment(this.state.enddate).format('x');
+    enddateInt = parseInt(enddateInt);
+
+    this.setState({
+      startdate: startdateInt,
+      enddate: enddateInt
+    });
+    if (isNaN(this.state.startdate) || isNaN(this.state.enddate)) {
+      this.setState({
+        errorMsg1:'Sorry... check your date/time input has an invalid format'
+      })
+    }else if(this.state.startdate > this.state.enddate){
       this.setState({
         errorMsg1:'Sorry... check your date/time input. Your meetup ends before it starts.'
       })
