@@ -80,7 +80,7 @@ var CreateMeetUpContainer = React.createClass({
     });
     if (isNaN(this.state.startdate) || isNaN(this.state.enddate)) {
       this.setState({
-        errorMsg1:'Sorry... check your date/time input has an invalid format'
+        errorMsg1:'Sorry... your date/time input format is not valid. Please use this format: MM/DD/YY h:mm A'
       })
     }else if(this.state.startdate > this.state.enddate){
       this.setState({
